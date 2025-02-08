@@ -86,8 +86,7 @@ The `auto run` however will look for every device that matches with a pre-define
 #### Manual Run
 
 ```shell
-./run.sh --type=[controller_type],vendor_id=[],product_id=[],port=[a.b];
-  [vendor_id=[],product_id=[],port=[a.b]...]
+./run.sh --usb type=[controller_type],vendorid=[],productid=[],port=[a.b];[vendorid=[],productid=[],port=[a.b]...]
 ```
 
 Gathering vendor/product id can be done, by executing the command `lsusb`.

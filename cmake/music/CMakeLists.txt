@@ -32,7 +32,15 @@ if ($ENV{HHUOS_REDISTRIBUTABLE_BUILD})
 else()
     add_custom_command(OUTPUT "${CMAKE_BINARY_DIR}/wav/ukulele.wav"
             COMMAND wget "https://www.bensound.com/bensound-music/bensound-ukulele.mp3" -O "ukulele.mp3"
-            COMMAND ffmpeg -i "ukulele.mp3" -acodec pcm_u8 -ar 22050 -ac 1 "${CMAKE_BINARY_DIR}/wav/ukulele.wav"
+            COMMAND ffmpeg -y -i "ukulele.mp3" -acodec pcm_u8 -ar 22050 -ac 1 "${CMAKE_BINARY_DIR}/wav/ukulele.wav"
+            DEPENDS "${CMAKE_BINARY_DIR}/wav/")
+
+    add_custom_command(OUTPUT "${CMAKE_BINARY_DIR}/wav/binkusuno_sake.wav"
+            COMMAND ffmpeg -y -stats -i "${HHUOS_ROOT_DIR}/initrd/wav/binkusuno_sake.wav" -codec:a pcm_s16le -ac 2 -ar 48000 -aframes 1000 "${CMAKE_BINARY_DIR}/wav/binkusuno_sake.wav"
+            DEPENDS "${CMAKE_BINARY_DIR}/wav/")
+
+    add_custom_command(OUTPUT "${CMAKE_BINARY_DIR}/wav/yorushika.wav"
+            COMMAND ffmpeg -y -stats -i "${HHUOS_ROOT_DIR}/initrd/wav/yorushika.wav" -codec:a pcm_s16le -ac 2 -ar 48000 -aframes 1000 "${CMAKE_BINARY_DIR}/wav/yorushika.wav"
             DEPENDS "${CMAKE_BINARY_DIR}/wav/")
 
     find_package(Python3)
@@ -83,6 +91,8 @@ else()
 
         add_custom_target(${PROJECT_NAME} DEPENDS
                 "${CMAKE_BINARY_DIR}/wav/ukulele.wav"
+                "${CMAKE_BINARY_DIR}/wav/binkusuno_sake.wav"
+                "${CMAKE_BINARY_DIR}/wav/yorushika.wav"
                 "${CMAKE_BINARY_DIR}/beep/angel.beep"
                 "${CMAKE_BINARY_DIR}/beep/castlevania.beep"
                 "${CMAKE_BINARY_DIR}/beep/dance_monkey.beep"
@@ -96,6 +106,9 @@ else()
                 "${CMAKE_BINARY_DIR}/beep/tetris.beep")
     else()
         add_custom_target(${PROJECT_NAME} DEPENDS
-                "${CMAKE_BINARY_DIR}/wav/ukulele.wav")
+                "${CMAKE_BINARY_DIR}/wav/ukulele.wav"
+                "${CMAKE_BINARY_DIR}/wav/binkusuno_sake.wav"
+                "${CMAKE_BINARY_DIR}/wav/yorushika.wav")
+                
     endif()
 endif()
